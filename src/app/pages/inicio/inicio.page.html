@@ -1,0 +1,86 @@
+<app-nature-header titulo="A Sombra das" destaque="Tocas"/>
+<ion-content class="nature-content ion-padding">
+
+    <!-- Título da Manada -->
+    <h2 class="text-lg font-bold mb-3 title-font" style="color: var(--forest-green, #2d5a36); font-size: 1.25rem;">
+        Os Meus Porquinhos
+    </h2>
+    <div class="manada-scroll">
+        @for (porquinho of dados.porquinhos(); track porquinho.id) {
+            <div class="porquinho-card">
+                <div class="porquinho-avatar" [routerLink]="['/porquinho', porquinho.id]">
+                    <img [src]="porquinho.foto || 'assets/images/default-guinea.jpg'"
+                        [alt]="porquinho.nome" (error)="$any($event.target).src = 'assets/images/default-guinea.jpg'"/>
+                </div>
+                <span class="porquinho-nome">{{ porquinho.nome }}</span>
+            </div>
+        }
+        <div class="porquinho-card" (click)="abrirModalCriarPorquinho()">
+            <div class="porquinho-avatar avatar-novo">
+                <ion-icon name="add"></ion-icon>
+            </div>
+            <span class="porquinho-nome">Novo</span>
+        </div>
+    </div>
+    <div class="acoes-grid">
+        <button [routerLink]="['/pesos']" class="btn-nature-action">
+            <ion-icon name="scale-outline"></ion-icon>
+            <span>Pesar Agora</span>
+        </button>
+        <button class="btn-nature-action" style="opacity: 0.9;" (click)="gaiolaLimpa()">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>Gaiola Limpa</span>
+        </button>
+    </div>
+    <div class="lembretes-topo">
+        <h2 class="title-font" style="color: var(--forest-green); font-size: 1.25rem; margin: 0;">
+            Próximos Lembretes
+        </h2>
+        <button class="btn-novo" (click)="novaTarefa()">
+            <ion-icon name="add"></ion-icon> Novo
+        </button>
+    </div>
+
+    <div class="lembretes-card">
+        <ion-list lines="full">
+            @for (t of dados.tarefasOrdenadas(); track t.id) {
+            <ion-item button detail="false" (click)="menuTarefa(t)">
+                <ion-icon
+                    slot="start"
+                    [name]="t.tipo === 'limpeza' ? 'home-outline' : (t.tipo === 'pesagem' ? 'scale-outline' : 'alarm-outline')"
+                    [style.color]="atrasada(t) ? '#ef4444' : 'var(--wood-brown)'"
+                    style="font-size: 22px;"></ion-icon>
+                <ion-label>
+                    <h3 [style.color]="atrasada(t) ? '#ef4444' : 'var(--forest-dark)'" style="font-weight: 700;">
+                        {{ t.titulo }}
+                    </h3>
+                    <p style="font-size: 12px; color: #6b7280;">{{ etiqueta(t) }}</p>
+                </ion-label>
+                <button slot="end" class="btn-feito" aria-label="Marcar como feita"
+                        (click)="$event.stopPropagation(); dados.concluirTarefa(t.id)">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                </button>
+            </ion-item>
+            } @empty {
+            <div class="lembretes-vazio">
+                Sem lembretes.<br>Carrega em "Novo" para criar o primeiro.
+            </div>
+            }
+        </ion-list>
+    </div>
+
+    <h2 class="text-lg font-bold mb-3 mt-8 title-font" style="color: var(--forest-green); font-size: 1.25rem;">
+        Cópia de Segurança
+    </h2>
+    <div class="acoes-grid">
+        <button class="btn-nature-action" (click)="exportarBackup()">
+            <ion-icon name="download-outline"></ion-icon>
+            <span>Exportar Dados</span>
+        </button>
+
+        <button class="btn-nature-action" (click)="clicarImportar()">
+            <ion-icon name="push-outline"></ion-icon>
+            <span>Importar Backup</span>
+        </button>
+    </div>
+</ion-content>

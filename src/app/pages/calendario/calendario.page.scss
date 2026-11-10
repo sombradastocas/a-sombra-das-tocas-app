@@ -1,0 +1,19 @@
+.btn-nature-action {
+    background: var(--wood-brown, #8c6747);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 14px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    font-weight: 600;
+    margin-top: 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    ion-icon {
+        font-size: 26px;
+    }
+}

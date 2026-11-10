@@ -1,0 +1,105 @@
+.manada-scroll {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.porquinho-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;
+  cursor: pointer;
+
+  .porquinho-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 2px solid var(--wood-brown);
+    background-color: var(--cream-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    &.avatar-novo {
+      border-style: dashed;
+      opacity: 0.8;
+      ion-icon { font-size: 32px; color: var(--wood-brown); }
+    }
+  }
+
+  .porquinho-nome {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--forest-dark);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75px;
+  }
+}
+
+.acoes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+
+  .btn-nature-action {
+    flex-direction: column;
+  }
+}
+
+.lembretes-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.btn-novo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--wood-brown);
+}
+
+/* Propriedades do cartão aplicadas diretamente */
+.lembretes-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.btn-feito {
+  background: none;
+  border: none;
+  padding: 4px;
+  font-size: 28px;
+  color: var(--wood-brown);
+  display: flex;
+}
+
+.lembretes-vazio {
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}

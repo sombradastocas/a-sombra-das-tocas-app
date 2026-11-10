@@ -1,20 +1,18 @@
+import { inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import {
-  RouteReuseStrategy,
-  provideRouter,
-  withComponentInputBinding,
-  withPreloading,
-  PreloadAllModules,
-} from '@angular/router';
-import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
-
-import { AppComponent } from './app/app.component';
-import { routes } from './app/app.routes';
+import { provideRouter } from '@angular/router';
+import { provideIonicAngular } from '@ionic/angular';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { AppComponent } from "./app/app.component";
+import { DadosService } from './app/services/dados.service';
+import { routes } from "./app/app.routes";
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
-  ],
+    providers: [
+        provideZoneChangeDetection(),
+        provideIonicAngular(),
+        provideRouter(routes),
+        provideAppInitializer(() => inject(DadosService).carregar()),
+    ],
 });
+defineCustomElements(window);

@@ -1,0 +1,40 @@
+<app-nature-header titulo="Controlo do" destaque="Calendário"/>
+<ion-content class="nature-content ion-padding">
+    <div class="lembretes-topo">
+        <h2 class="title-font" style="color: var(--forest-green); font-size: 1.25rem; margin: 0;">
+            Todos os Lembretes
+        </h2>
+        <button class="btn-nature-action" (click)="novaTarefa()">
+            <ion-icon name="add"></ion-icon>
+            <span>Novo</span>
+        </button>
+    </div>
+
+    <div class="lembretes-card">
+        <ion-list lines="full">
+            @for (t of dados.tarefasOrdenadas(); track t.id) {
+            <ion-item button detail="false" (click)="menuTarefa(t)">
+                <ion-icon
+                    slot="start"
+                    [name]="t.tipo === 'limpeza' ? 'home-outline' : 'alarm-outline'"
+                    [style.color]="atrasada(t) ? '#ef4444' : 'var(--wood-brown)'"
+                    style="font-size: 22px;"></ion-icon>
+                <ion-label>
+                    <h3 [style.color]="atrasada(t) ? '#ef4444' : 'var(--forest-dark)'" style="font-weight: 700;">
+                        {{ t.titulo }}
+                    </h3>
+                    <p style="font-size: 12px; color: #6b7280;">{{ etiqueta(t) }}</p>
+                </ion-label>
+                <button slot="end" class="btn-feito" aria-label="Marcar como feita"
+                        (click)="$event.stopPropagation(); dados.concluirTarefa(t.id)">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                </button>
+            </ion-item>
+            } @empty {
+            <div class="lembretes-vazio">
+                Sem lembretes.<br>Carrega em "Novo" para criar o primeiro.
+            </div>
+            }
+        </ion-list>
+    </div>
+</ion-content>

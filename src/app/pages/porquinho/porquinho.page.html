@@ -1,0 +1,92 @@
+<app-nature-header titulo="Detalhes do" destaque="Porquinho" [voltar]="true" />
+
+<ion-content class="nature-content ion-padding">
+    @if (porquinho(); as p) {
+    <div class="perfil-card">
+        <img class="perfil-foto" [src]="p.foto || 'assets/images/default-guinea.jpg'" [alt]="p.nome" />
+        <h2 class="perfil-nome title-font">{{ p.nome }}</h2>
+        @if (p.dataNascimento) {
+            <p class="perfil-info">Nasceu a {{ p.dataNascimento | date: 'dd/MM/yyyy' }} · <strong> {{ idade() }}</strong></p>
+        } @else {
+            <p class="perfil-info">Data de nascimento não definida</p>
+        }
+        <div class="detalhes-grid">
+            <div class="detalhes-item">Sexo <strong>{{ p.sexo || '-' }}</strong></div>
+            <div class="detalhes-item">Raça <strong>{{ p.raca || '-' }}</strong></div>
+            <div class="detalhes-item">Cor <strong>{{ p.cor || '-' }}</strong></div>
+            <div class="detalhes-item">Origem <strong>{{ p.origem || '-' }}</strong></div>
+            <div class="detalhes-item full-width">Microchip <strong>{{ p.microchip || '-' }}</strong></div>
+        </div>
+        <button class="btn-editar" (click)="editar()">
+            <ion-icon name="create-outline"></ion-icon> Editar
+        </button>
+    </div>
+
+    @if (resumo(); as r) {
+    <div class="resumo-grid">
+        <div class="resumo-item">
+            <small>Último peso</small><strong>{{ r.ultimo }}g</strong>
+        </div>
+        <div class="resumo-item"
+             [class.fundo-critico]="r.variacao <= -50"
+             [class.fundo-atencao]="r.variacao <= -20 && r.variacao > -50">
+            <small>Variação total</small>
+            <strong [class.positivo]="r.variacao >= 0" [class.negativo]="r.variacao < 0">
+                {{ r.variacao > 0 ? '+' : '' }}{{ r.variacao }}g
+            </strong>
+        </div>
+        <div class="resumo-item"><small>Registos</small><strong>{{ r.total }}</strong></div>
+    </div>
+    }
+
+    @if (alertaPeso(); as alerta) {
+    <div class="alerta-saude" [class.critico]="alerta.tipo === 'critico'" [class.atencao]="alerta.tipo === 'atencao'">
+        <ion-icon [name]="alerta.tipo === 'critico' ? 'warning-outline' : 'information-circle-outline'"></ion-icon>
+
+        <div class="alerta-conteudo">
+            @if (alerta.tipo === 'critico') {
+            <h3 class="title-font">Alerta de Saúde</h3>
+            <p>Perdeu <strong>{{ alerta.valor }}g</strong> desde a última pesagem. Uma queda superior a 50g pode indicar doença. Confere se está a comer normalmente.</p>
+            } @else {
+            <h3 class="title-font">Monitorizar Peso</h3>
+            <p>Descida ligeira de <strong>{{ alerta.valor }}g</strong>. Variações são normais, mas é recomendável voltar a pesar amanhã <strong>à mesma hora</strong> para confirmar.</p>
+            }
+        </div>
+    </div>
+    }
+    @if (historico().length >= 2) {
+        <h2 class="secao-titulo title-font mt-6">Curva de Crescimento</h2>
+        <div class="bg-white p-3 mx-4 mb-2 rounded-xl shadow-sm border border-gray-200">
+            <canvas #graficoCanvas></canvas>
+        </div>
+    }
+
+    <h2 class="secao-titulo title-font mt-4">Histórico de Pesos</h2>
+    <div class="lista-card">
+        <ion-list lines="full">
+            @for (reg of historico(); track reg.id) {
+            <ion-item>
+                <ion-label>
+                    <h3 style="font-weight: 700; color: var(--forest-dark)">{{ reg.data | date: 'dd/MM/yyyy' }}</h3>
+                </ion-label>
+                <div slot="end">
+                    <span class="peso-valor font-bold text-[var(--wood-brown)]">{{ reg.peso }}g</span>
+                    @if (reg.diferenca !== null) {
+                    <span class="dif ml-2 text-xs font-bold" [class.text-green-600]="reg.diferenca >= 0" [class.text-red-500]="reg.diferenca < 0">
+                            {{ reg.diferenca > 0 ? '+' : '' }}{{ reg.diferenca }}g
+                        </span>
+                    }
+                </div>
+            </ion-item>
+            } @empty {
+                <div class="vazio text-center p-6">
+                    <ion-icon name="scale-outline" style="font-size: 2.2rem; color: #d1d5db"></ion-icon><br />
+                    <p class="text-gray-500 text-sm mt-2">Ainda não há pesos registados.</p>
+                </div>
+            }
+        </ion-list>
+    </div>
+    } @else {
+        <p class="vazio">Porquinho não encontrado.</p>
+    }
+</ion-content>

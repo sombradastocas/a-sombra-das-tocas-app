@@ -1,0 +1,75 @@
+<app-nature-header titulo="Controlo de" destaque="Pesos"/>
+
+<ion-content class="nature-content ion-padding">
+
+    <!-- Cartão: Inserir Novo Peso -->
+    <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 mb-8 mt-2">
+        <h2 class="text-xl font-bold mb-5 title-font flex items-center gap-2" style="color: var(--forest-green)">
+            Novo Registo
+        </h2>
+
+        @if (dados.porquinhos().length === 0) {
+        <p class="text-sm text-gray-500 mb-4 bg-[var(--cream-bg)] p-4 rounded-xl border border-gray-200 text-center">
+            Ainda não tens porquinhos registados.<br>Vai à página inicial para adicionar o primeiro!
+        </p>
+        } @else {
+            <div class="mb-5">
+                <label class="label-forest block mb-2 font-semibold text-sm">Qual é o porquinho?</label>
+                <select [(ngModel)]="porquinhoSelecionadoId" class="input-forest mb-5 w-full bg-gray-50 rounded-xl p-3 border border-gray-200">
+                    @for (porquinho of dados.porquinhos(); track porquinho.id) {
+                        <option [value]="porquinho.id">{{ porquinho.nome }}</option>
+                    }
+                </select>
+
+                <label class="label-forest block mb-2 font-semibold text-sm">Peso (em gramas)</label>
+                <div class="relative">
+                    <input type="number" [(ngModel)]="novoPeso" placeholder="Ex: 1050" class="input-forest w-full bg-gray-50 rounded-xl p-3 border border-gray-200 pr-10">
+                </div>
+            </div>
+            <button class="btn-nature-action" (click)="guardarPeso()">
+                <ion-icon name="scale-outline"></ion-icon>
+                <span>Pesar Agora</span>
+            </button>
+        }
+    </div>
+
+    <!-- Cartão: Histórico Recente -->
+    <h2 class="text-xl font-bold mb-4 title-font" style="color: var(--forest-green)">Últimos Registos</h2>
+    <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden mb-6">
+        <ion-list lines="full" class="bg-transparent">
+            @for (registo of historicoFormatado(); track registo.id) {
+            <ion-item class="bg-transparent py-1">
+                <!-- Avatar com Imagem no Histórico -->
+                <ion-avatar slot="start" class="w-12 h-12 border-2 border-[var(--wood-brown)] flex items-center justify-center bg-[var(--cream-bg)] overflow-hidden shadow-sm">
+                    <img
+                        [src]="registo.foto || 'assets/images/default-guinea.jpg'"
+                        [alt]="registo.nome"
+                        (error)="$any($event.target).src = 'assets/images/default-guinea.jpg'"
+                        class="object-cover w-full h-full"
+                    />
+                </ion-avatar>
+
+                <ion-label class="ml-2">
+                    <h3 class="font-bold text-[15px]" style="color: var(--forest-dark);">{{ registo.nome }}</h3>
+                    <p class="text-[13px] text-gray-500 mt-1 font-medium">{{ registo.data }}</p>
+                </ion-label>
+
+                <div slot="end" class="flex flex-col items-end gap-1">
+                    <span class="font-black text-lg tracking-tight" style="color: var(--wood-brown);">{{ registo.peso }}g</span>
+                    <div class="flex items-center gap-1 text-[11px] font-bold"
+                         [ngClass]="registo.tendencia === 'up' ? 'text-green-600' : 'text-rose-500'">
+                        <ion-icon [name]="registo.tendencia === 'up' ? 'trending-up-outline' : 'trending-down-outline'"></ion-icon>
+                        {{ registo.tendencia === 'up' ? 'Subiu' : 'Desceu' }}
+                    </div>
+                </div>
+            </ion-item>
+            } @empty {
+            <div class="p-8 text-center text-sm text-gray-500 flex flex-col items-center gap-3">
+                <ion-icon name="scale-outline" class="text-4xl text-gray-300"></ion-icon>
+                Ainda não existem registos de peso.
+            </div>
+            }
+        </ion-list>
+    </div>
+
+</ion-content>

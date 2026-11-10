@@ -1,0 +1,76 @@
+/* Caixa principal do formulário */
+.form-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+  margin-bottom: 24px;
+}
+
+/* Grupo de campo (Label + Input) */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* Grelha para colocar 2 campos lado a lado (ex: Sexo e Peso) */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Estilo para as etiquetas (Labels) */
+.form-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--forest-dark);
+}
+
+/* Estilo para todos os inputs e selects */
+.form-input {
+  width: 100%;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: #1f2937;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: var(--wood-brown);
+    box-shadow: 0 0 0 3px rgba(140, 103, 71, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+/* Botão principal de submissão */
+.btn-submit {
+  width: 100%;
+  padding: 16px;
+  background: var(--wood-brown);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(140, 103, 71, 0.2);
+  transition: opacity 0.3s, transform 0.1s;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

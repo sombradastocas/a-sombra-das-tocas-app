@@ -1,0 +1,96 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar style="--background: var(--cream-bg, #fcf9f2);">
+        <ion-buttons slot="start">
+            <ion-button (click)="cancelar()" style="color: var(--wood-brown, #8c6747);">
+                <ion-icon name="close-outline" slot="icon-only" style="font-size: 24px;"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title class="title-font" style="color: var(--forest-green, #2d5a36); text-align: center;">
+            {{ porquinhoEdit ? 'Editar Perfil' : 'Novo Porquinho' }}
+        </ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="continuar()" [disabled]="!dados.nome" style="color: var(--forest-green, #2d5a36); font-weight: 700;">
+                Guardar
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="--background: var(--cream-bg, #fcf9f2);">
+    <div class="form-card">
+        <div class="form-group">
+            <label class="form-label">Nome (Obrigatório)</label>
+            <input type="text" class="form-input" [(ngModel)]="dados.nome" placeholder="Ex: Cookie">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Data de Nascimento</label>
+            <input type="date" class="form-input" [(ngModel)]="dados.dataNascimento">
+        </div>
+
+        <div class="form-grid">
+            <div>
+                <label class="form-label">Sexo</label>
+                <select class="form-input" [(ngModel)]="dados.sexo">
+                    <option value="AindaNaoSei">Ainda não sei</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Femea">Fêmea</option>
+                </select>
+            </div>
+
+            <!-- Só pede o Peso inicial se estiver a criar um NOVO porquinho -->
+            @if (!porquinhoEdit) {
+            <div>
+                <label class="form-label">Peso (gramas)</label>
+                <input type="number" class="form-input" [(ngModel)]="dados.peso" placeholder="Ex: 1050">
+            </div>
+            }
+        </div>
+
+        <div class="form-grid">
+            <div>
+                <label class="form-label">Raça</label>
+                <input type="text" list="lista-racas" class="form-input" [(ngModel)]="dados.raca" placeholder="Ex: Abissínio">
+                <datalist id="lista-racas">
+                    <option value="Pelo Curto Inglês"></option>
+                    <option value="Abissínio"></option>
+                    <option value="Peruano"></option>
+                    <option value="Sheltie / Silkie"></option>
+                    <option value="Coronet"></option>
+                    <option value="Texel"></option>
+                    <option value="Teddy"></option>
+                    <option value="Rex"></option>
+                    <option value="Skinny (Sem pelo)"></option>
+                    <option value="Lunkarya"></option>
+                </datalist>
+            </div>
+            <div>
+                <label class="form-label">Cor / Padrão</label>
+                <input type="text" class="form-input" [(ngModel)]="dados.cor" placeholder="Ex: Tricolor...">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Origem</label>
+            <select class="form-input" [(ngModel)]="dados.origem">
+                <option value="Desconhecida">Desconhecida</option>
+                <option value="Adoção">Adoção / Resgate</option>
+                <option value="Criador">Criador Registado</option>
+                <option value="Loja">Loja de Animais</option>
+                <option value="Particular">Particular / Amigo</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">Microchip</label>
+            <input type="text" class="form-input" [(ngModel)]="dados.microchip" placeholder="Nº do chip (opcional)">
+        </div>
+    </div>
+
+    <button class="btn-submit" (click)="continuar()" [disabled]="!dados.nome" [style.opacity]="dados.nome ? '1' : '0.5'">
+        <span>{{ porquinhoEdit ? 'Guardar Alterações' : 'Continuar para a Foto' }}</span>
+        <ion-icon name="checkmark-outline" style="font-size: 20px;"></ion-icon>
+    </button>
+</ion-content>

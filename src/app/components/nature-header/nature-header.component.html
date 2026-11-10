@@ -1,0 +1,20 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar class="nature-header">
+        <div class="header__brand">
+            <a routerLink="/inicio" class="header__logo-link" aria-label="Ir para o início">
+                <img src="assets/images/logo-emblema.jpg" alt="A Sombra das Tocas" class="header__logo">
+            </a>
+            <span class="header__title">
+                {{ titulo() }}
+                @if (destaque()) {
+                    <strong>{{ destaque() }}</strong>
+                }
+            </span>
+        </div>
+        @if (voltar()) {
+            <ion-buttons slot="start">
+                <ion-back-button defaultHref="/inicio" text=""></ion-back-button>
+            </ion-buttons>
+        }
+    </ion-toolbar>
+</ion-header>
